@@ -19,8 +19,12 @@ namespace WinformsDropDownItems
                     tsmi.DropDownItems.Clear();
                     tsmi.DropDownItems.AddRange(CommonItems);
                 };
-                tsmi.DropDownClosed += (sender, e) =>
+                tsmi.DropDownClosed += async (sender, e) =>
                 {
+                    // This delay ensures that the handler will still have
+                    // access to the OwnerItem. We'll probably want to know
+                    // whether the call was made by InsertAbove or InsertBelow
+                    await Task.Delay(TimeSpan.FromSeconds(0.5));
                     tsmi.DropDownItems.Clear();
                     tsmi.DropDownItems.Add(new ToolStripMenuItem()); // Placeholder
                 };
@@ -53,7 +57,10 @@ namespace WinformsDropDownItems
                     });
 
                     comboBoxItem.SelectedIndex = 0;
-                    comboBoxItem.SelectedIndexChanged += async (sender, e) =>{ await Task.Delay(10); ContextMenuStrip?.Close(); }; 
+                    comboBoxItem.SelectedIndexChanged += async (sender, e) =>
+                    { 
+                        await Task.Delay(TimeSpan.FromSeconds(0.5)); ContextMenuStrip?.Close();
+                    }; 
                     comboBoxItem.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
                     _commonItemsSingleton = new ToolStripItem[]
                     {
@@ -67,10 +74,22 @@ namespace WinformsDropDownItems
         }
         ToolStripItem[]? _commonItemsSingleton = default;
 
-        private void ComboBox_SelectedIndexChanged(object? sender, EventArgs e) =>
-            MessageBox.Show($"{(sender as ToolStripItem)?.Text}");
+        private void SimpleClick_Clicked(object? sender, EventArgs e)
+        {
+            if (sender is ToolStripItem tsi)
+            {
+                MessageBox.Show(
+                    text: tsi.Text, caption: $"Called by {tsi.OwnerItem?.Text}");
+            }
+        }
 
-        private void SimpleClick_Clicked(object? sender, EventArgs e) =>
-            MessageBox.Show($"{(sender as ToolStripItem)?.Text}");
+        private void ComboBox_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (sender is ToolStripItem tsi)
+            {
+                MessageBox.Show(
+                    text: tsi.Text, caption: $"Called by {tsi.OwnerItem?.Text}");
+            }
+        }
     }
 }

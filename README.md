@@ -64,10 +64,14 @@ public MainForm()
             tsmi.DropDownItems.Clear();
             tsmi.DropDownItems.AddRange(CommonItems);
         };
-        tsmi.DropDownClosed += (sender, e) =>
+        tsmi.DropDownClosed += async (sender, e) =>
         {
+            // This delay ensures that the handler will still have
+            // access to the OwnerItem. We'll probably want to know
+            // whether the call was made by InsertAbove or InsertBelow
+            await Task.Delay(TimeSpan.FromSeconds(0.5));
             tsmi.DropDownItems.Clear();
-            tsmi.DropDownItems.Add(new ToolStripMenuItem()); // Again, Placeholder ensures ► visible
+            tsmi.DropDownItems.Add(new ToolStripMenuItem()); // Placeholder
         };
         RightClickWindow.Items.Add(tsmi);
     }
