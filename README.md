@@ -79,6 +79,24 @@ public MainForm()
 ```
 
 [![showing identical item collections][1]][1]
+___
+
+#### Determine the caller
+
+Since the two drop down menus now do (literally) identical things, it may be important to inspect the `OwnerItem` to determine whether it was called by **[InsertAbove]** or **[InsertBelow]**. For example:
+
+```
+private void SimpleClick_Clicked(object? sender, EventArgs e)
+{
+    if (sender is ToolStripItem tsi)
+    {
+        MessageBox.Show(
+            text: tsi.Text, caption: $"Called by {tsi.OwnerItem?.Text}");
+    }
+}
+```
+[![caller identified][2]][2]
 
 
   [1]: https://i.sstatic.net/zYNGKr5n.png
+  [2]: https://i.sstatic.net/AADKbO8J.png
