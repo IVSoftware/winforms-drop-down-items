@@ -53,8 +53,8 @@ namespace WinformsDropDownItems
                     });
 
                     comboBoxItem.SelectedIndex = 0;
-                    comboBoxItem.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
                     comboBoxItem.SelectedIndexChanged += async (sender, e) =>{ await Task.Delay(10); ContextMenuStrip?.Close(); }; 
+                    comboBoxItem.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
                     _commonItemsSingleton = new ToolStripItem[]
                     {
                         clickableItem,
@@ -67,8 +67,8 @@ namespace WinformsDropDownItems
         }
         ToolStripItem[]? _commonItemsSingleton = default;
 
-        private void ComboBox_SelectedIndexChanged(object? sender, EventArgs e){ }
-            // MessageBox.Show($"{(sender as ToolStripItem)?.Text}");
+        private void ComboBox_SelectedIndexChanged(object? sender, EventArgs e) =>
+            MessageBox.Show($"{(sender as ToolStripItem)?.Text}");
 
         private void SimpleClick_Clicked(object? sender, EventArgs e) =>
             MessageBox.Show($"{(sender as ToolStripItem)?.Text}");

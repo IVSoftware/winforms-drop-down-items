@@ -27,8 +27,8 @@ ToolStripItem[] CommonItems
             });
 
             comboBoxItem.SelectedIndex = 0;
-            comboBoxItem.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
-            comboBoxItem.SelectedIndexChanged += async (sender, e) =>{ await Task.Delay(10); ContextMenuStrip?.Close(); }; 
+            comboBoxItem.SelectedIndexChanged += async (sender, e) =>{ await Task.Delay(10); ContextMenuStrip?.Close(); };
+            comboBoxItem.SelectedIndexChanged += ComboBox_SelectedIndexChanged; 
             _commonItemsSingleton = new ToolStripItem[]
             {
                 clickableItem,
